@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Employees {
+  id       String    @id @default(uuid())
+  name     String
+  phone    String
+  services Service[]
+
+  @@map("employees")
+}
+
+model Helpers {
+  id       String    @id @default(uuid())
+  name     String
+  phone    String
+  services Service[]
+
+  @@map("helpers")
+}
+
+model Service {
+  id              String         @id @default(uuid())
+  client          String
+  date            DateTime
+  vehicle         String
+  plate           String
+  particular      Boolean
+  enterprise      Boolean
+  enterprise_name String?
+  phone           String
+  diagnoses       String
+  employees       Employees      @relation(fields: [employeesId], references: [id])
+  employeesId     String         @map("employees_id")
+  helpers         Helpers?       @relation(fields: [helpersId], references: [id])
+  helpersId       String?        @map("helpers_id")
+  type_services   TypeServices[]
+
+  @@map("service")
+}
+
+model TypeServices {
+  id      String    @id @default(uuid())
+  name    String
+  value   Float
+  service Service[]
+
+  @@map("types_services")
+}
