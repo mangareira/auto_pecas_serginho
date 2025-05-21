@@ -1,0 +1,6 @@
+import { CreateTypeServicesDto } from '../dto/create_type_services.respository';
+import { TypeServices } from '../entities/type_services.entity';
+
+export abstract class ITypeServicesRepository {
+  abstract create(data: CreateTypeServicesDto): Promise<TypeServices>;
+}
