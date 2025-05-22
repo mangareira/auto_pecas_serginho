@@ -10,11 +10,28 @@ export class LoginController {
 
   @Post()
   @UsePipes(new ZodPipe(createLoginSchema))
-  async signIn(@Body() admin: CreateLoginDto, @Res() res: Response) {
+  async signIn(
+    @Body() admin: CreateLoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const result = await this.loginService.findOne(admin);
 
-    res.cookie('access_token', result.access_token);
+    res
+      .cookie('access_token', result.access_token, {
+        signed: true,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 3600000,
+      })
+      .cookie('refresh_token', result.refresh_token, {
+        signed: true,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
 
-    res.status(200).send();
+    return;
   }
 }

@@ -16,9 +16,14 @@ export class LoginService {
     if (!isExists) throw new UnauthorizedException();
 
     const access_token = await this.jwtService.signAsync({ sub: isExists.id });
+    const refresh_token = await this.jwtService.signAsync(
+      { sub: isExists.id },
+      { expiresIn: '7d' },
+    );
 
     return {
       access_token,
+      refresh_token,
     };
   }
 }
