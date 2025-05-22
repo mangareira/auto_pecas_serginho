@@ -27,7 +27,7 @@ export class LoginController {
     @Res({ passthrough: true }) res: Response,
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const refresh_token: string = req.signedCookies['refresh-token'];
+    const refresh_token: string = req.signedCookies['refresh_token'];
 
     const tokens = await this.loginService.refreshToken(refresh_token);
 
