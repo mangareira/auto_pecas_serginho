@@ -1,8 +1,8 @@
-import { Body, Controller, Post, Res, UsePipes } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UsePipes } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { CreateLoginDto, createLoginSchema } from './dto/create-login.dto';
 import { ZodPipe } from 'src/common/pipes/zod/zod.pipe';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Controller('login')
 export class LoginController {
@@ -16,6 +16,30 @@ export class LoginController {
   ) {
     const result = await this.loginService.findOne(admin);
 
+    this.makeCookie(res, result);
+
+    return;
+  }
+
+  @Post('/refresh-token')
+  async refresToken(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const refresh_token: string = req.signedCookies['refresh-token'];
+
+    const tokens = await this.loginService.refreshToken(refresh_token);
+
+    this.makeCookie(res, tokens);
+
+    return;
+  }
+
+  private makeCookie(
+    res: Response,
+    result: { access_token: string; refresh_token: string },
+  ) {
     res
       .cookie('access_token', result.access_token, {
         signed: true,
@@ -31,7 +55,5 @@ export class LoginController {
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
-
-    return;
   }
 }
