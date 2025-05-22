@@ -5,9 +5,18 @@ import { ServicesController } from './modules/services/services.controller';
 import { EmployeesModule } from './modules/employees/employees.module';
 import { TypeServicesModule } from './modules/type_services/type_services.module';
 import { HelpersModule } from './modules/helpers/helpers.module';
+import { AdminModule } from './modules/admin/admin.module';
+import { LoginModule } from './modules/login/login.module';
 
 @Module({
-  imports: [ServicesModule, EmployeesModule, TypeServicesModule, HelpersModule],
+  imports: [
+    ServicesModule,
+    EmployeesModule,
+    TypeServicesModule,
+    HelpersModule,
+    AdminModule,
+    LoginModule,
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
