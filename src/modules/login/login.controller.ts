@@ -18,6 +18,8 @@ export class LoginController {
 
     this.makeCookie(res, result);
 
+    res.status(200);
+
     return;
   }
 
@@ -42,18 +44,19 @@ export class LoginController {
   ) {
     res
       .cookie('access_token', result.access_token, {
-        signed: true,
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        sameSite: 'lax',
         maxAge: 3600000,
+        path: '/',
       })
       .cookie('refresh_token', result.refresh_token, {
         signed: true,
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60 * 1000,
+        path: '/',
       });
   }
 }
