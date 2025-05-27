@@ -13,7 +13,7 @@ export class Middleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const token: string = req.signedCookies['access_token'];
+      const token: string = req.cookies['access_token'];
 
       if (!token) throw new UnauthorizedException();
 

@@ -15,4 +15,24 @@ export class AdminPrismaRepository implements IAdminRepository {
 
     return admin;
   }
+
+  async getAll(): Promise<Admin[]> {
+    const admins = this.prisma.admin.findMany({
+      omit: {
+        password: true,
+      },
+    });
+
+    return admins;
+  }
+
+  async getById(id: string): Promise<Admin | null> {
+    const admin = this.prisma.admin.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return admin;
+  }
 }

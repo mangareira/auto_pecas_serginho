@@ -15,4 +15,16 @@ export class AdminService {
 
     return admin;
   }
+
+  async getAll() {
+    const admins = this.adminRepository.getAll();
+
+    return admins;
+  }
+
+  async getById(id: string) {
+    const admins = this.adminRepository.getById(id);
+
+    return admins;
+  }
 }
