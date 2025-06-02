@@ -1,7 +1,16 @@
-import { Controller, Post, Body, UsePipes, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UsePipes,
+  Get,
+  Param,
+  Put,
+} from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto, createAdminSchema } from './dto/create-admin.dto';
 import { ZodPipe } from 'src/common/pipes/zod/zod.pipe';
+import { Admin } from './entities/admin.entity';
 
 @Controller('admin')
 export class AdminController {
@@ -21,5 +30,10 @@ export class AdminController {
   @Get('/:id')
   getById(@Param('id') id: string) {
     return this.adminService.getById(id);
+  }
+
+  @Put()
+  update(@Body() admin: Admin) {
+    return this.adminService.update(admin);
   }
 }

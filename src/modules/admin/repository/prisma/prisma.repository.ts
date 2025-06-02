@@ -17,11 +17,7 @@ export class AdminPrismaRepository implements IAdminRepository {
   }
 
   async getAll(): Promise<Admin[]> {
-    const admins = this.prisma.admin.findMany({
-      omit: {
-        password: true,
-      },
-    });
+    const admins = this.prisma.admin.findMany();
 
     return admins;
   }
@@ -31,6 +27,19 @@ export class AdminPrismaRepository implements IAdminRepository {
       where: {
         id,
       },
+    });
+
+    return admin;
+  }
+
+  async update(data: Admin): Promise<Admin> {
+    console.log(data);
+
+    const admin = this.prisma.admin.update({
+      where: {
+        id: data.id,
+      },
+      data,
     });
 
     return admin;
