@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   Put,
+  Delete,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto, createAdminSchema } from './dto/create-admin.dto';
@@ -32,8 +33,13 @@ export class AdminController {
     return this.adminService.getById(id);
   }
 
-  @Put()
-  update(@Body() admin: Admin) {
-    return this.adminService.update(admin);
+  @Put('/:id')
+  update(@Body() admin: Admin, @Param('id') id: string) {
+    return this.adminService.update(admin, id);
+  }
+
+  @Delete('/:id')
+  deleteById(@Param('id') id: string) {
+    return this.adminService.deleteById(id);
   }
 }

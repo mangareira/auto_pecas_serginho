@@ -29,8 +29,8 @@ export class AdminService {
     return admins;
   }
 
-  async update(data: Admin) {
-    const { id, password } = data;
+  async update(data: Admin, id: string) {
+    const { password } = data;
 
     const entityToUpdate = await this.adminRepository.getById(id);
 
@@ -48,13 +48,20 @@ export class AdminService {
       password &&
       typeof password === 'string' &&
       password.length > 0 &&
+      entityToUpdate.password &&
       (await compare(password, entityToUpdate.password))
     ) {
       entityToUpdate.password = await hash(password, 10);
     }
 
-    const updatedAdmin = this.adminRepository.update(entityToUpdate);
+    const updatedAdmin = this.adminRepository.update(entityToUpdate, id);
 
     return updatedAdmin;
+  }
+
+  async deleteById(id: string) {
+    const admin = this.adminRepository.deleteById(id);
+
+    return admin;
   }
 }

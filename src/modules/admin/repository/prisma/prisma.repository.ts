@@ -11,13 +11,20 @@ export class AdminPrismaRepository implements IAdminRepository {
   async create(data: CreateAdminDto): Promise<Admin> {
     const admin = this.prisma.admin.create({
       data,
+      omit: {
+        password: true,
+      },
     });
 
     return admin;
   }
 
   async getAll(): Promise<Admin[]> {
-    const admins = this.prisma.admin.findMany();
+    const admins = this.prisma.admin.findMany({
+      omit: {
+        password: true,
+      },
+    });
 
     return admins;
   }
@@ -32,16 +39,23 @@ export class AdminPrismaRepository implements IAdminRepository {
     return admin;
   }
 
-  async update(data: Admin): Promise<Admin> {
-    console.log(data);
-
+  async update(data: Admin, id: string): Promise<Admin> {
     const admin = this.prisma.admin.update({
       where: {
-        id: data.id,
+        id,
       },
       data,
+      omit: {
+        password: true,
+      },
     });
 
     return admin;
+  }
+
+  async deleteById(id: string): Promise<null> {
+    await this.prisma.admin.delete({ where: { id } });
+
+    return null;
   }
 }
