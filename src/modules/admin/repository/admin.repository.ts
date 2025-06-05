@@ -7,4 +7,5 @@ export abstract class IAdminRepository {
   abstract getById(id: string): Promise<Admin | null>;
   abstract update(data: Admin, id: string): Promise<Admin>;
   abstract deleteById(id: string): Promise<null>;
+  abstract deleteBulk(ids: Array<string>): Promise<null>;
 }

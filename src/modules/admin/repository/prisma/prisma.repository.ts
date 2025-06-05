@@ -58,4 +58,16 @@ export class AdminPrismaRepository implements IAdminRepository {
 
     return null;
   }
+
+  async deleteBulk(ids: Array<string>): Promise<null> {
+    await this.prisma.admin.deleteMany({
+      where: {
+        id: {
+          in: ids
+        }
+      }
+    })
+
+    return null
+  }
 }
