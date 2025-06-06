@@ -26,6 +26,13 @@ export class HelpersPrismaRepository implements IHelpersRepository {
       where: {
         id,
       },
+      include: {
+        services: {
+          include: {
+            type_services: true,
+          },
+        },
+      },
     });
 
     return helper;
