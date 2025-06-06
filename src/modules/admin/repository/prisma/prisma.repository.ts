@@ -63,11 +63,11 @@ export class AdminPrismaRepository implements IAdminRepository {
     await this.prisma.admin.deleteMany({
       where: {
         id: {
-          in: ids
-        }
-      }
-    })
+          in: ids,
+        },
+      },
+    });
 
-    return null
+    return null;
   }
 }

@@ -22,12 +22,12 @@ export class AdminController {
   create(@Body() createAdminDto: CreateAdminDto) {
     return this.adminService.create(createAdminDto);
   }
-  
-  @Post("/bulk-delete")
+
+  @Post('/bulk-delete')
   deleteBulk(@Body() ids: Array<string>) {
-    return this.adminService.deleteBulk(ids)
+    return this.adminService.deleteBulk(ids);
   }
-  
+
   @Get()
   getAll() {
     return this.adminService.getAll();
@@ -47,5 +47,4 @@ export class AdminController {
   deleteById(@Param('id') id: string) {
     return this.adminService.deleteById(id);
   }
-
 }

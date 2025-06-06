@@ -12,4 +12,34 @@ export class EmployeesService {
 
     return employee;
   }
+
+  async getAll() {
+    const employees = this.employeeRepository.getAll();
+
+    return employees;
+  }
+
+  async getById(id: string) {
+    const employee = this.employeeRepository.getById(id);
+
+    return employee;
+  }
+
+  async update(data: Omit<Employee, 'services'>, id: string) {
+    const employee = this.employeeRepository.update(data, id);
+
+    return employee;
+  }
+
+  async deleteById(id: string) {
+    await this.employeeRepository.deleteById(id);
+
+    return;
+  }
+
+  async deleteBulk(ids: Array<string>) {
+    await this.employeeRepository.deleteBulk(ids);
+
+    return null;
+  }
 }
