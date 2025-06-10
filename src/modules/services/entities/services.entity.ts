@@ -9,7 +9,7 @@ export type Service = {
   enterprise_name?: string | null;
   phone: string;
   diagnoses: string;
-  employeesId: string;
+  employeesId: string | null;
   helpersId?: string | null;
   type_services: TypeService[];
 };

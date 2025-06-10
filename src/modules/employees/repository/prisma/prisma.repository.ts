@@ -57,22 +57,40 @@ export class EmployeesPrismaRepository implements IEmployeesRepository {
     return employee;
   }
   async deleteById(id: string): Promise<null> {
-    await this.prisma.employees.delete({
-      where: {
-        id,
-      },
-    });
+    await this.prisma.$transaction([
+      this.prisma.service.updateMany({
+        where: { employeesId: id },
+        data: { employeesId: null },
+      }),
+
+      this.prisma.employees.delete({
+        where: { id },
+      }),
+    ]);
 
     return null;
   }
   async deleteBulk(ids: Array<string>): Promise<null> {
-    await this.prisma.employees.deleteMany({
-      where: {
-        id: {
-          in: ids,
+    await this.prisma.$transaction([
+      this.prisma.service.updateMany({
+        where: {
+          employeesId: {
+            in: ids,
+          },
         },
-      },
-    });
+        data: {
+          employeesId: null,
+        },
+      }),
+
+      this.prisma.employees.deleteMany({
+        where: {
+          id: {
+            in: ids,
+          },
+        },
+      }),
+    ]);
 
     return null;
   }
