@@ -6,16 +6,19 @@ import {
   Put,
   Delete,
   Param,
+  UsePipes,
 } from '@nestjs/common';
 import { HelpersService } from './helpers.service';
-import { CreateHelperDto } from './dto/create-helper.dto';
+import { CreateHelperDto, createHelperSchema } from './dto/create-helper.dto';
 import { Helper } from './entities/helper.entity';
+import { ZodPipe } from 'src/common/pipes/zod/zod.pipe';
 
 @Controller('helpers')
 export class HelpersController {
   constructor(private readonly helpersService: HelpersService) {}
 
   @Post()
+  @UsePipes(new ZodPipe(createHelperSchema))
   async create(@Body() createHelperDto: CreateHelperDto) {
     return this.helpersService.create(createHelperDto);
   }

@@ -48,22 +48,40 @@ export class HelpersPrismaRepository implements IHelpersRepository {
     return helper;
   }
   async deleteById(id: string): Promise<null> {
-    await this.prisma.helpers.delete({
-      where: {
-        id,
-      },
-    });
+    await this.prisma.$transaction([
+      this.prisma.service.updateMany({
+        where: { helpersId: id },
+        data: { helpersId: null },
+      }),
+
+      this.prisma.helpers.delete({
+        where: { id },
+      }),
+    ]);
 
     return null;
   }
   async deleteBulk(ids: Array<string>): Promise<null> {
-    await this.prisma.helpers.deleteMany({
-      where: {
-        id: {
-          in: ids,
+    await this.prisma.$transaction([
+      this.prisma.service.updateMany({
+        where: {
+          helpersId: {
+            in: ids,
+          },
         },
-      },
-    });
+        data: {
+          helpersId: null,
+        },
+      }),
+
+      this.prisma.helpers.deleteMany({
+        where: {
+          id: {
+            in: ids,
+          },
+        },
+      }),
+    ]);
 
     return null;
   }
