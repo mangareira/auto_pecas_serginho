@@ -39,8 +39,8 @@ export class HelpersController {
   }
 
   @Put('/:id')
-  update(@Param('id') id: string, @Body() employee: Omit<Helper, 'services'>) {
-    return this.helpersService.update(employee, id);
+  update(@Param('id') id: string, @Body() helper: Omit<Helper, 'services'>) {
+    return this.helpersService.update(helper, id);
   }
 
   @Delete('/:id')

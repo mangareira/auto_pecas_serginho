@@ -5,11 +5,41 @@ import { CreateServiceDto } from './dto/create-service.dto';
 
 @Injectable()
 export class ServicesService {
-  constructor(private servicesService: IServicesRepository) {}
+  constructor(private servicesRepository: IServicesRepository) {}
 
   async create(data: CreateServiceDto): Promise<Service> {
-    const service = this.servicesService.create(data);
+    const service = this.servicesRepository.create(data);
 
     return service;
+  }
+
+  async getAll() {
+    const helpers = this.servicesRepository.getAll();
+
+    return helpers;
+  }
+
+  async getById(id: string) {
+    const helper = this.servicesRepository.getById(id);
+
+    return helper;
+  }
+
+  async update(data: Service, id: string) {
+    const helper = this.servicesRepository.update(data, id);
+
+    return helper;
+  }
+
+  async deleteById(id: string) {
+    await this.servicesRepository.deleteById(id);
+
+    return;
+  }
+
+  async deleteBulk(ids: Array<string>) {
+    await this.servicesRepository.deleteBulk(ids);
+
+    return null;
   }
 }
