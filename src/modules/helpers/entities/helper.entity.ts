@@ -4,4 +4,5 @@ export class Helper {
   name: string;
   phone: string;
   services?: Service[];
+  value: number;
 }

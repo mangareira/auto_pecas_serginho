@@ -5,4 +5,5 @@ export class Employee {
   name: string;
   phone: string;
   services?: Service[];
+  value: number;
 }

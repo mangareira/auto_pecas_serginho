@@ -18,6 +18,7 @@ model Employees {
   id       String    @id @default(uuid())
   name     String
   phone    String
+  value    Int       @default(0)
   services Service[]
 
   @@map("employees")
@@ -27,6 +28,7 @@ model Helpers {
   id       String    @id @default(uuid())
   name     String
   phone    String
+  value    Int       @default(0)
   services Service[]
 
   @@map("helpers")
@@ -48,6 +50,7 @@ model Service {
   helpers         Helpers?        @relation(fields: [helpersId], references: [id])
   helpersId       String?         @map("helpers_id")
   type_services   Type_services[]
+  value           Int
 
   @@map("service")
 }
@@ -55,7 +58,7 @@ model Service {
 model Type_services {
   id      String    @id @default(uuid())
   name    String
-  value   Float
+  value   Int       @default(0)
   service Service[]
 
   @@map("types_services")

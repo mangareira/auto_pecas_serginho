@@ -42,7 +42,7 @@ export class ServicesController {
   }
 
   @Put('/:id')
-  update(@Param('id') id: string, @Body() service: Service) {
+  update(@Param('id') id: string, @Body() service: CreateServiceDto) {
     return this.servicesService.update(service, id);
   }
 

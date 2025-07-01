@@ -9,7 +9,7 @@ export class ServicePrismaRepository implements IServicesRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateServiceDto): Promise<Service> {
-    const service = this.prisma.service.create({
+    const service = await this.prisma.service.create({
       data: {
         ...data,
         type_services: {
@@ -39,15 +39,32 @@ export class ServicePrismaRepository implements IServicesRepository {
       },
     });
   }
-  async update(data: Service, id: string): Promise<Service> {
+  async update(data: CreateServiceDto, id: string): Promise<Service> {
     const service = this.prisma.service.update({
       where: { id },
       data: {
-        ...data,
+        client: data.client,
+        date: data.date,
+        diagnoses: data.diagnoses,
+        employees: {
+          connect: {
+            id: data.employeesId,
+          },
+        },
         type_services: {
-          connect: data.type_services.map((typeService) => ({
-            id: typeService.id,
-          })),
+          connect: data.type_services.map((id) => ({ id })),
+        },
+        enterprise: data.enterprise,
+        particular: data.particular,
+        phone: data.phone,
+        plate: data.plate,
+        value: data.value,
+        vehicle: data.vehicle,
+        enterprise_name: data.enterprise_name,
+        helpers: {
+          connect: {
+            id: data.helpersId,
+          },
         },
       },
       include: {

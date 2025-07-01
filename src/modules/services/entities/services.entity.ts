@@ -11,10 +11,11 @@ export type Service = {
   diagnoses: string;
   employeesId: string | null;
   helpersId?: string | null;
-  type_services: TypeService[];
+  type_services: TypeServices[];
+  value: number;
 };
 
-export type TypeService = {
+type TypeServices = {
   id: string;
   name: string;
   value: number;

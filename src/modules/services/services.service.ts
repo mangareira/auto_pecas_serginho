@@ -25,7 +25,7 @@ export class ServicesService {
     return helper;
   }
 
-  async update(data: Service, id: string) {
+  async update(data: CreateServiceDto, id: string) {
     const helper = this.servicesRepository.update(data, id);
 
     return helper;

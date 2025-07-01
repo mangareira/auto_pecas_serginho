@@ -24,6 +24,7 @@ export const CreateServiceSchema = z
     type_services: z
       .array(z.string().uuid())
       .min(1, 'Selecione pelo menos um tipo de serviço'),
+    value: z.number().nonnegative(),
   })
   .refine((data) => !(data.particular && data.enterprise), {
     message: 'Não pode ser particular e empresa ao mesmo tempo',
