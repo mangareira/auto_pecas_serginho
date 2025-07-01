@@ -61,11 +61,13 @@ export class ServicePrismaRepository implements IServicesRepository {
         value: data.value,
         vehicle: data.vehicle,
         enterprise_name: data.enterprise_name,
-        helpers: {
-          connect: {
-            id: data.helpersId,
-          },
-        },
+        helpers: data.helpersId
+          ? {
+              connect: {
+                id: data.helpersId,
+              },
+            }
+          : undefined,
       },
       include: {
         type_services: true,
