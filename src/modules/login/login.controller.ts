@@ -20,7 +20,7 @@ export class LoginController {
 
     res.status(200);
 
-    return;
+    return result;
   }
 
   @Post('/refresh-token')
@@ -35,7 +35,7 @@ export class LoginController {
 
     this.makeCookie(res, tokens);
 
-    return;
+    return tokens;
   }
 
   private makeCookie(
