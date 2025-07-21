@@ -14,21 +14,21 @@ export class ServicesService {
   }
 
   async getAll() {
-    const helpers = this.servicesRepository.getAll();
+    const services = this.servicesRepository.getAll();
 
-    return helpers;
+    return services;
   }
 
   async getById(id: string) {
-    const helper = this.servicesRepository.getById(id);
+    const service = this.servicesRepository.getById(id);
 
-    return helper;
+    return service;
   }
 
   async update(data: CreateServiceDto, id: string) {
-    const helper = this.servicesRepository.update(data, id);
+    const service = this.servicesRepository.update(data, id);
 
-    return helper;
+    return service;
   }
 
   async deleteById(id: string) {

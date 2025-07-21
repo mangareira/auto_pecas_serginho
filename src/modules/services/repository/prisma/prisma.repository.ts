@@ -27,6 +27,8 @@ export class ServicePrismaRepository implements IServicesRepository {
     return this.prisma.service.findMany({
       include: {
         type_services: true,
+        employees: true,
+        helpers: true,
       },
     });
   }
@@ -36,6 +38,8 @@ export class ServicePrismaRepository implements IServicesRepository {
       where: { id },
       include: {
         type_services: true,
+        employees: true,
+        helpers: true,
       },
     });
   }
