@@ -9,6 +9,7 @@ async function bootstrap() {
       'http://localhost:3001',
       'http://localhost:8081',
       'http://10.0.0.171:8081',
+      '*',
     ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -16,6 +17,6 @@ async function bootstrap() {
     exposedHeaders: ['Set-Cookie'],
   });
   app.use(cookieParser(process.env.SECRET_KEY));
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
 void bootstrap();

@@ -49,4 +49,18 @@ export class LoginService {
       throw new UnauthorizedException('Token expirado');
     }
   }
+
+  async validate(token: string | undefined) {
+    if (!token) throw new UnauthorizedException('Erro de Validação de token');
+
+    try {
+      await this.jwtService.verifyAsync(token);
+
+      const decode: { sub: string } = await this.jwtService.decode(token);
+
+      return decode.sub;
+    } catch {
+      throw new UnauthorizedException('Token expirado');
+    }
+  }
 }

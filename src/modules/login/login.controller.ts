@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Req, Res, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UsePipes,
+} from '@nestjs/common';
 import { LoginService } from './login.service';
 import { CreateLoginDto, createLoginSchema } from './dto/create-login.dto';
 import { ZodPipe } from 'src/common/pipes/zod/zod.pipe';
@@ -29,13 +37,26 @@ export class LoginController {
     @Res({ passthrough: true }) res: Response,
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const refresh_token: string = req.signedCookies['refresh_token'];
+    let refresh_token: string = req.signedCookies['refresh_token'];
+
+    if (!refresh_token) {
+      refresh_token = req.headers.authorization?.split(' ')[1] as string;
+    }
 
     const tokens = await this.loginService.refreshToken(refresh_token);
 
     this.makeCookie(res, tokens);
 
     return tokens;
+  }
+
+  @Get('/validate-token')
+  async validateToken(@Req() req: Request) {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    const isValid = await this.loginService.validate(token);
+
+    return { id: isValid };
   }
 
   private makeCookie(

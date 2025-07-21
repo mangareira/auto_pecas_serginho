@@ -66,6 +66,6 @@ export class AdminService {
   }
 
   async deleteBulk(ids: Array<string>) {
-    const admin = this.adminRepository.deleteBulk(ids);
+    await this.adminRepository.deleteBulk(ids);
   }
 }
