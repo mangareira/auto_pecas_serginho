@@ -11,6 +11,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { EmployeesController } from './modules/employees/employees.controller';
 import { TypeServicesController } from './modules/type_services/type_services.controller';
 import { AdminController } from './modules/admin/admin.controller';
+import { ItemsModule } from './modules/items/items.module';
+import { HelpersController } from './modules/helpers/helpers.controller';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { AdminController } from './modules/admin/admin.controller';
     HelpersModule,
     AdminModule,
     LoginModule,
+    ItemsModule,
     JwtModule.register({
       global: true,
       secret: process.env.SECRET_KEY,
@@ -43,7 +46,7 @@ export class AppModule implements NestModule {
         EmployeesController,
         TypeServicesController,
         AdminController,
-        HelpersModule,
+        HelpersController,
       );
   }
 }

@@ -15,9 +15,13 @@ export class ServicePrismaRepository implements IServicesRepository {
         type_services: {
           connect: data.type_services.map((id) => ({ id })),
         },
+        items: {
+          connect: data.items?.map((id) => ({ id })),
+        },
       },
       include: {
         type_services: true,
+        items: true,
       },
     });
 
@@ -29,6 +33,7 @@ export class ServicePrismaRepository implements IServicesRepository {
         type_services: true,
         employees: true,
         helpers: true,
+        items: true,
       },
     });
   }
@@ -40,6 +45,7 @@ export class ServicePrismaRepository implements IServicesRepository {
         type_services: true,
         employees: true,
         helpers: true,
+        items: true,
       },
     });
   }

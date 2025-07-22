@@ -13,6 +13,14 @@ export type Service = {
   helpersId?: string | null;
   type_services: TypeServices[];
   value: number;
+  items?: Items[];
+};
+
+type Items = {
+  id: string;
+  name: string;
+  value: number;
+  description?: string;
 };
 
 type TypeServices = {

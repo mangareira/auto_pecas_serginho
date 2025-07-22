@@ -45,14 +45,25 @@ model Service {
   enterprise_name String?
   phone           String
   diagnoses       String
-  employees       Employees?       @relation(fields: [employeesId], references: [id])
-  employeesId     String?          @map("employees_id")
+  employees       Employees?      @relation(fields: [employeesId], references: [id])
+  employeesId     String?         @map("employees_id")
   helpers         Helpers?        @relation(fields: [helpersId], references: [id])
   helpersId       String?         @map("helpers_id")
+  items           Items[]
   type_services   Type_services[]
   value           Int
 
   @@map("service")
+}
+
+model Items {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  value       Int
+  Service     Service[]
+
+  @@map("items")
 }
 
 model Type_services {
