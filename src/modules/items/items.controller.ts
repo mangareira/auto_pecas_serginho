@@ -6,15 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
-import { CreateItemDto } from './dto/create-item.dto';
+import { CreateItemDto, createItemSchema } from './dto/create-item.dto';
+import { ZodPipe } from 'src/common/pipes/zod/zod.pipe';
 
 @Controller('items')
 export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
   @Post()
+  @UsePipes(new ZodPipe(createItemSchema))
   create(@Body() createItemDto: CreateItemDto) {
     return this.itemsService.create(createItemDto);
   }
