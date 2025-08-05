@@ -13,6 +13,9 @@ import { TypeServicesController } from './modules/type_services/type_services.co
 import { AdminController } from './modules/admin/admin.controller';
 import { ItemsModule } from './modules/items/items.module';
 import { HelpersController } from './modules/helpers/helpers.controller';
+import { SummaryModule } from './modules/summary/summary.module';
+import { ItemsController } from './modules/items/items.controller';
+import { SummaryController } from './modules/summary/summary.controller';
 
 @Module({
   imports: [
@@ -23,6 +26,7 @@ import { HelpersController } from './modules/helpers/helpers.controller';
     AdminModule,
     LoginModule,
     ItemsModule,
+    SummaryModule,
     JwtModule.register({
       global: true,
       secret: process.env.SECRET_KEY,
@@ -47,6 +51,8 @@ export class AppModule implements NestModule {
         TypeServicesController,
         AdminController,
         HelpersController,
+        ItemsController,
+        SummaryController,
       );
   }
 }

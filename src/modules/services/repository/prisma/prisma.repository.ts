@@ -62,7 +62,10 @@ export class ServicePrismaRepository implements IServicesRepository {
           },
         },
         type_services: {
-          connect: data.type_services.map((id) => ({ id })),
+          set: data.type_services.map((id) => ({ id })),
+        },
+        items: {
+          set: data.items?.map((id) => ({ id })),
         },
         enterprise: data.enterprise,
         particular: data.particular,
