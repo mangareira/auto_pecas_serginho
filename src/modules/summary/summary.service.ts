@@ -9,45 +9,47 @@ export class SummaryService {
   async find(from?: string, to?: string) {
     const defaultTo = new Date();
     const defaultFrom = subDays(defaultTo, 30);
+
     const startDate = from
       ? parse(from, 'yyyy-MM-dd', new Date())
       : defaultFrom;
     const endDate = to ? parse(to, 'yyyy-MM-dd', new Date()) : defaultTo;
 
-    const periodLength = differenceInDays(endDate, startDate) + 1;
-    const lastPeriodStart = subDays(startDate, periodLength);
-    const lastPeriodEnd = subDays(endDate, periodLength);
+    const monthStart = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
+    const prevMonthStart = new Date(
+      monthStart.getFullYear(),
+      monthStart.getMonth() - 1,
+      1,
+    );
+    const prevMonthEnd = subDays(monthStart, 1);
 
-    const currentPeriod = await this.summaryRepository.getPeriodData(
-      startDate,
+    const annualStart = subDays(endDate, 365);
+    const lastAnnualStart = subDays(annualStart, 365);
+    const lastAnnualEnd = subDays(endDate, 365);
+
+    const monthlyData = await this.summaryRepository.getPeriodData(
+      monthStart,
       endDate,
     );
-    const lastPeriod = await this.summaryRepository.getPeriodData(
-      lastPeriodStart,
-      lastPeriodEnd,
+    const lastMonthData = await this.summaryRepository.getPeriodData(
+      prevMonthStart,
+      prevMonthEnd,
+    );
+
+    const annualData = await this.summaryRepository.getPeriodData(
+      annualStart,
+      endDate,
+    );
+    const lastAnnualData = await this.summaryRepository.getPeriodData(
+      lastAnnualStart,
+      lastAnnualEnd,
     );
 
     const dailyData = await this.summaryRepository.getDailyData(
-      startDate,
+      monthStart,
       endDate,
     );
-    const days = this.fillMissingDays(dailyData, startDate, endDate);
-
-    const incomeChange = this.calculatePercentageChange(
-      currentPeriod.income,
-      lastPeriod.income,
-    );
-
-    const expensesChange = this.calculatePercentageChange(
-      currentPeriod.expenses,
-      lastPeriod.expenses,
-    );
-
-    const remainingChange = this.calculatePercentageChange(
-      currentPeriod.remaining,
-      lastPeriod.remaining,
-    );
-
+    const days = this.fillMissingDays(dailyData, monthStart, endDate);
     const employeesData = await this.summaryRepository.getEmployeesData(
       startDate,
       endDate,
@@ -68,12 +70,27 @@ export class SummaryService {
       });
     }
 
+    const incomeChange = this.calculatePercentageChange(
+      monthlyData.income,
+      lastMonthData.income,
+    );
+
+    const expensesChange = this.calculatePercentageChange(
+      monthlyData.expenses,
+      lastMonthData.expenses,
+    );
+
+    const remainingChange = this.calculatePercentageChange(
+      annualData.remaining,
+      lastAnnualData.remaining,
+    );
+
     return {
-      remainingAmount: currentPeriod.remaining,
+      remainingAmount: annualData.remaining,
       remainingChange,
-      incomeAmount: currentPeriod.income,
+      incomeAmount: monthlyData.income,
       incomeChange,
-      expensesAmount: currentPeriod.expenses,
+      expensesAmount: monthlyData.expenses,
       expensesChange,
       employees: finalEmployees,
       days,
